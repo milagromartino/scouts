@@ -11177,7 +11177,7 @@ nav.page-navbar.affix .navbar-brand .text-dark {
 }
 
 .header {
-  background: #efefef url(../imgs/Portada\ Web\ prueba.jpg);
+  background: #efefef url(../imgs/Portada\ Web\ -\ 24.jpg);
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -11273,7 +11273,7 @@ section.p-md {
 }
 
 section.has-bg-img {
-  background-image: url(../imgs/Portada\ Web.jpg);
+  background-image: url();
   background-size: cover;
   background-position: center;
   min-height: 450px;
@@ -11489,4 +11489,79 @@ section.height-auto {
 .testmonial-wrapper .title {
   margin-top: -40px;
 }
+.contenedor {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap; /* Permite que las tarjetas se envuelvan en pantallas pequeñas */
+  width: 100%;
+  overflow-x: auto; /* Permite el desplazamiento horizontal si es necesario */
+}
 
+.tarjeta {
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  width: calc(25% - 20px); /* Ancho de las tarjetas en pantallas grandes */
+  cursor: pointer; /* Cambia el cursor al pasar sobre la tarjeta */
+  height: 300px; /* Altura fija para las tarjetas */
+  background-color: transparent; /* Fondo transparente */
+}
+
+.cabecera-tarjeta {
+  height: 100%; /* Asegura que el contenedor de la imagen ocupe toda la altura de la tarjeta */
+}
+
+.cabecera-tarjeta img {
+  width: 100%; /* Ancho completo de la tarjeta */
+  height: 100%; /* Altura completa de la tarjeta */
+  object-fit: contain; /* Asegura que la imagen se ajuste sin recortes */
+  cursor: pointer; /* Cambia el cursor al pasar sobre la imagen */
+}
+
+/* Estilos para pantallas más pequeñas */
+@media (max-width: 1200px) {
+  .tarjeta {
+      width: calc(33.33% - 20px); /* 3 tarjetas por fila */
+  }
+}
+
+@media (max-width: 900px) {
+  .tarjeta {
+      width: calc(50% - 20px); /* 2 tarjetas por fila */
+  }
+}
+
+@media (max-width: 600px) {
+  .tarjeta {
+      width: 100%; /* 1 tarjeta por fila */
+  }
+}
+
+.modal {
+  display: none; /* Oculto por defecto */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+.imagen-modal {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.cerrar {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}

@@ -1,2 +1,2 @@
 # scouts
-pagina web no oficial del gs guanella n34
+Página hecha para el Grupo Scout San Luis Guanella N° 34

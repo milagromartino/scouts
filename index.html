@@ -36,14 +36,17 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#about">Sobre Nosotros</a>
                     </li>
+                   <li class="nav-item">
+                        <a class="nav-link" href="#testmonial">¿Que hacen los scouts?</a>
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link" href="#inscripcion">¿Cómo me inscribo?</a>
+                    </li> 
                     <li class="nav-item">
                         <a class="nav-link" href="#features">Unidades</a>
                     </li>
-                   <!-- <li class="nav-item">
-                        <a class="nav-link" href="#testmonial">Testimonios</a>
-                    </li> -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contactos</a>
+                        <a class="nav-link" href="#contact">Contacto</a>
                     </li>
                     <!--<li class="nav-item ml-md-4">
                         <a class="nav-link btn btn-primary" href="components.html">Components</a>
@@ -148,7 +151,7 @@
 
 
     <!-- section -->
-    <section>
+    <section id="testmonial">
         <!-- Container -->
         <div class="container">
             <!-- row -->
@@ -156,7 +159,7 @@
                 <div class="col-md-6">
                     <div class="img-wrapper">
                         <div class="after"></div>
-                        <img src="assets/imgs/portfolio1.jfif" class="w-100" alt="About Us">
+                        <img src="assets/imgs/imagen.png" class="w-100" alt="About Us">
                     </div>
                 </div>
                 <div class="col-md-5">
@@ -174,7 +177,7 @@
     </section><!-- End of Section -->
 
     <!-- section -->
-    <section>
+    <section id="inscripcion">
         <!-- Container -->
         <div class="container">
             <!-- Row -->
@@ -196,67 +199,57 @@
         </div><!-- End of Container-->
     </section><!-- End of Section -->
 
-
-    <!-- Features Section -->
-    <section class="has-bg-img" id="features">
-        <div class="overlay"></div>
-        <!-- Button trigger modal -->
-        <a data-toggle="modal" href="#exampleModalCenter">
-            <i></i>
-        </a>
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                <div class="modal-content">
-                    <iframe width="100%" height="450px" class="border-0"
-                        src="../public_html/assets/imgs/Scout SLG 34.mp4">
-                    </iframe>
-                </div>
-            </div>
-        </div><!-- End of Modal -->
-    </section><!-- End of features Section -->
-
     <!-- Section -->
-    <section>
+    <section id="features">
         <!-- Container -->
         <div class="container">
             <!-- Row -->
-            <div class="row justify-content-between align-items-center">
-                <div class="col-md-6">
-                    <div class="img-wrapper">
-                        <div class="after"></div>
-                        <img src="assets/imgs/unidad.jfif" class="w-100" alt="About us">
+            <h6 class="title mb-3">Unite a tu unidad scout.</h6>
+            <div class="contenedor">
+                <div class="tarjeta" onclick="abrirModal('assets/imgs/Manada de Lobos - Flyer.png')">
+                    <div class="cabecera-tarjeta">
+                        <img src="assets/imgs/Manada de Lobos - Flyer.png" alt="Manada-de-Lobos" />
                     </div>
                 </div>
-                
-                <div class="col-md-5">
-                    <h6 class="title mb-3">Unite a tu unidad scout.</h6>
-                    <p>Manada de Lobatos. De 7 a 10 años. </p>
-                    <a href="#">
-                        <img src="assets/imgs/manada.jpg" ; style="width: 80px; border-radius: 0%;" alt="" >
-                    </a>
-                    </p>
-                    <p>Tropa Scout. De 11 a 14 años. </p>
-                    <a href="#">
-                        <img src="assets/imgs/tropa-removebg-preview.png" ; style="width: 80px; border-radius: 0%;" alt="" >
-                    </a>
-                    </p>
-                    <p>Comunidad de Caminantes. De 15 a 18 años. </p>
-                    <a href="#">
-                        <img src="assets/imgs/armada-removebg-preview.png" ; style="width: 80px; border-radius: 0%;" alt="" >
-                    </a>
-                    </p>
-                    <p>Clan de Rovers. De 19 a 23 años. </p>
-                    <a href="#">
-                        <img src="assets/imgs/clan-removebg-preview.png" ; style="width: 80px; border-radius: 0%;" alt="" >
-                    </a>
-                    </p>
-                    
+        
+                <div class="tarjeta" onclick="abrirModal('assets/imgs/Tropa - Flyer.png')">
+                    <div class="cabecera-tarjeta">
+                        <img src="assets/imgs/Tropa - Flyer.png" alt="Tropa-Scout" />
+                    </div>
                 </div>
-            </div><!-- End of Row -->
-        </div><!-- End of Container-->
+        
+                <div class="tarjeta" onclick="abrirModal('assets/imgs/Caminantes - Flyer.png')">
+                    <div class="cabecera-tarjeta">
+                        <img src="assets/imgs/Caminantes - Flyer.png" alt="Comunidad-Caminantes" />
+                    </div>
+                </div>
+        
+                <div class="tarjeta" onclick="abrirModal('assets/imgs/Clan - Flyer.png')">
+                    <div class="cabecera-tarjeta">
+                        <img src="assets/imgs/Clan - Flyer.png" alt="Clan-de-Rovers" />
+                    </div>
+                </div>
+            </div>
+        </div><!-- End of Row -->
+        
+        <!-- Modal -->
+        <div id="modal" class="modal" onclick="cerrarModal()">
+            <span class="cerrar">&times;</span>
+            <img class="imagen-modal" id="imagen-modal" />
+        </div>
+        <script>
+            function abrirModal(imagenSrc) {
+    const modal = document.getElementById('modal');
+    const imagenModal = document.getElementById('imagen-modal');
+    imagenModal.src = imagenSrc;
+    modal.style.display = 'flex'; // Muestra el modal
+}
+
+function cerrarModal() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'none'; // Oculta el modal
+}
+        </script>
     </section><!-- End of Section -->
 
     <!-- Testmonial Section -->
@@ -298,33 +291,20 @@
     <!-- </section><!-- End of Testmonial Section -->
 
     <!-- Contact Section -->
-    <section id="contact" class="text-center">
-        <!-- container -->
-        <div class="container">
-            <h1>Contactanos</h1>
-            <p class="mb-5">Si tienes algunas preguntas o necesitas ayuda, por favor contactanos! <br>
-          <b> O escribenos por nuestras redes sociales!</b> </p>
-
-            <!-- Contact form -->
-            <form class="contact-form col-md-11 col-lg-9 mx-auto">
-                <div class="form-row">
-                    <div class="col form-group">
-                        <input type="text" class="form-control" placeholder="Name">
-                    </div>
-                    <div class="col form-group">
-                        <input type="email" class="form-control" placeholder="Email">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <textarea name="" id="" cols="30" rows="5" class="form-control"
-                        placeholder="Your Message"></textarea>
-                </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary btn-block" value="Send Message">
-                </div>
-            </form><!-- End of Contact form -->
-        </div><!-- End of Container-->
-    </section><!-- End of Contact Section -->
+    <!-- Contact Section -->
+<section id="contact" class="text-center">
+    <!-- container -->
+    <div class="container">
+        <h1>Contáctanos</h1>
+        <p class="mb-5">Si tienes alguna pregunta o necesitas más información, ¡no dudes en contactarnos! Puedes encontrarnos en nuestras redes sociales, enviarnos un mensaje por WhatsApp o completar el formulario. Nos pondremos en contacto contigo a la brevedad. <br></p>
+        <p>Te invitamos a completar nuestro formulario: <a href="https://docs.google.com/forms/d/e/1FAIpQLSfBp1Afe92bX7MXaICzLd17lrgga_vWMIfmJefeA-AnaxEQ7w/viewform?usp=sf_link" target="_blank"><b>¡Haz clic aquí!</b></a></p>
+        <p>O contáctanos por WhatsApp:</p>
+        <a href="https://wa.me/595983366341?text=¡Hola!%20He%20visto%20información%20del%20grupo%20scout%20en%20la%20página%20web.%20¿Podrían%20darme%20más%20información?" target="_blank" class="whatsapp-link">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width: 24px; height: 24px;">
+             <b>Lorena Amarilla - Jefa de Grupo </b>
+        </a>
+    </div><!-- End of Container-->
+</section><!-- End of Contact Section --><!-- End of Contact Section -->
 
     <!-- Section -->
     <section class="pb-0">
@@ -373,8 +353,8 @@
                         <h6 class="font-weight-bold">Información de contacto</h6>
                     </li>
                     <li class="list-body">
-                        <p>Realizamos nuestras actividades todos los sábados de 15 a 18 hrs</p>
-                        <p>Parroquia San Miguel Arcángel, Asunción</p>
+                        <p>Realizamos nuestras actividades todos los sábados de 14.30 a 17.30 hrs</p>
+                        <p>Parroquia San Miguel Arcángel, Barrio Ciudad Nueva - Asunción.</p>
                     </li>
                 </ul>
             </div><!-- End of Pre footer -->
