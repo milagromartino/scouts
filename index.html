@@ -1,384 +1,961 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Página del Grupo Scout San Luis Guanella N 34">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Página del Grupo Scout San Luis Guanella N° 34 - Misión Educativa Scout">
     <meta name="author" content="Milagro Martino">
-    <title im> San Luis Guanella N° 34</title>
+    <title>San Luis Guanella N° 34 | Grupo Scout</title>
     <link rel="icon" href="assets/imgs/Guanella PNG.png" type="image/x-icon">
+    
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['Poppins', 'sans-serif'],
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .hero-bg {
+            background: linear-gradient(135deg, #DC2626 0%, #1F2937 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(20px); }
+        }
+        
+        .carrusel-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
 
-    <!-- font icons -->
-    <link rel="stylesheet" href="assets/imgs/themify-icons/css/themify-icons.css">
+        .carrusel-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 75%;
+            overflow: hidden;
+            background: #1f2937;
+        }
 
-    <!-- Bootstrap + Creative Design main styles -->
-    <link rel="stylesheet" href="assets/css/creative-design.css">
+        .carrusel-images {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
 
+        .carrusel-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .carrusel-image.active {
+            opacity: 1;
+        }
+
+        .carrusel-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Botones navegación */
+        .carrusel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background: rgba(155, 17, 30, 0.8);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .carrusel-btn:hover {
+            background: rgba(155, 17, 30, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carrusel-btn-prev {
+            left: 15px;
+        }
+
+        .carrusel-btn-next {
+            right: 15px;
+        }
+
+        /* Indicadores */
+        .carrusel-indicators {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .carrusel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            border: 2px solid white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carrusel-dot.active {
+            background: #9b111e;
+            width: 32px;
+            border-radius: 6px;
+        }
+
+        .carrusel-dot:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .imagen-modal {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .cerrar {
+            position: absolute;
+            right: 35px;
+            top: 15px;
+            font-size: 40px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .cerrar:hover {
+            color: #bbb;
+        }
+    </style>
 </head>
 
-<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
+<body class="bg-white text-gray-900" id="home">
 
-    <!-- Page Navbar -->
-    <nav id="scrollspy" class="navbar page-navbar navbar-light navbar-expand-md fixed-top" data-spy="affix"
-        data-offset-top="20">
-        <div class="container">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-gradient-to-b from-white to-gray-50 shadow-lg z-50 top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <div class="h-12 hover:opacity-80 transition-opacity">
+                    <img src="assets/imgs/Guanella PNG.png" alt="Scout SLG34" class="h-full">
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button id="menu-btn" class="md:hidden text-gray-600 hover:text-red-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#home">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">Sobre Nosotros</a>
-                    </li>
-                   <li class="nav-item">
-                        <a class="nav-link" href="#testmonial">¿Que hacen los scouts?</a>
-                    </li> 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#inscripcion">¿Cómo me inscribo?</a>
-                    </li> 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#features">Unidades</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contacto</a>
-                    </li>
-                    <!--<li class="nav-item ml-md-4">
-                        <a class="nav-link btn btn-primary" href="components.html">Components</a>
-                    </li> -->
+                <!-- Desktop menu -->
+                <ul id="nav-menu" class="hidden md:flex space-x-8 items-center">
+                    <li><a href="#home" class="text-gray-700 hover:text-red-600 font-medium transition">Inicio</a></li>
+                    <li><a href="#about" class="text-gray-700 hover:text-red-600 font-medium transition">Sobre Nosotros</a></li>
+                    <li><a href="#activities" class="text-gray-700 hover:text-red-600 font-medium transition">¿Qué hacen?</a></li>
+                    <li><a href="#inscription" class="text-gray-700 hover:text-red-600 font-medium transition">¿Cómo inscribirse?</a></li>
+                    <li><a href="#units" class="text-gray-700 hover:text-red-600 font-medium transition">Unidades</a></li>
+                    <li><a href="#contact" class="text-gray-700 hover:text-red-600 font-medium transition">Contacto</a></li>
+                </ul>
+            </div>
+
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4 border-t">
+                <ul class="space-y-3 pt-4">
+                    <li><a href="#home" class="block text-gray-700 hover:text-red-600 font-medium transition">Inicio</a></li>
+                    <li><a href="#about" class="block text-gray-700 hover:text-red-600 font-medium transition">Sobre Nosotros</a></li>
+                    <li><a href="#activities" class="block text-gray-700 hover:text-red-600 font-medium transition">¿Qué hacen?</a></li>
+                    <li><a href="#inscription" class="block text-gray-700 hover:text-red-600 font-medium transition">¿Cómo inscribirse?</a></li>
+                    <li><a href="#units" class="block text-gray-700 hover:text-red-600 font-medium transition">Unidades</a></li>
+                    <li><a href="#contact" class="block text-gray-700 hover:text-red-600 font-medium transition">Contacto</a></li>
                 </ul>
             </div>
         </div>
-    </nav><!-- End of Page Navbar -->
+    </nav>
 
-    <!-- Page Header -->
-    <header id="home" class="header">
-        <div class="overlay"></div>
-        <div class="header-content">
-            <h6>San Luis Guanella N° 34</h6>
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-20 text-white overflow-hidden" style="background-image: linear-gradient(135deg, rgba(155, 17, 30, 0.85) 0%, rgba(31, 41, 55, 0.85) 100%), url('assets/imgs/inicio-bienve.jpeg'); background-size: cover; background-position: center; min-height: 600px; display: flex; align-items: center;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full relative z-10">
+            <h1 class="text-5xl md:text-6xl font-bold mb-4">San Luis Guanella N° 34</h1>
+            <p class="text-xl md:text-2xl mb-8 text-red-100">Grupo Scout con más de 70 años de tradición en Asunción</p>
+            <a href="#about" class="inline-block bg-white text-red-600 px-8 py-3 rounded-lg font-bold hover:bg-red-100 transition">
+                Conócenos
+            </a>
         </div>
-    </header><!-- End of Page Header -->
+    </header>
 
-    <!-- About Section -->
-    <section id="about">
-        <!-- Container -->
-        <div class="container">
-            <!-- About wrapper -->
-            <div class="about-wrapper">
-                <div class="after">
-                    <h1 style="color:#000">Nosotros</h1>
-                </div>
-                <div class="content">
-                    <h5 class="title mb-3">Grupo Scout San Luis Guanella</h5>
-                    <!-- row -->
-                    <div class="row">
-                        <div class="col">
-                            <p align="justify">Nuestro grupo posee una tradición de Escultismo en el Barrio Ciudad
-                                Nueva, de Asunción,
-                                siendo uno de los grupos más antiguos del País,
+    <style>
+        /* ========== TIMELINE - NUEVO DISEÑO MINIMALISTA ========== */
+        .timeline-container {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 0;
+        }
 
-                                con casi 70 años de existencia.</p>
-                            <p><b>Un poco de historia...</b></p>
-                            <p align="justify">Esta historia se inicia a finales de la década de 1940, cuando fue uno de
-                                los primeros
-                                Grupos de Boys Scouts de País, denominado en ese tiempo como “Batallón de Boys Scouts Nº
-                                9 -
-                                Parroquía San Miguel Arcángel”, empleaban uniformes verdes olivo, sombrero de cuatro
-                                pedradas y
-                                pañuelo verde olivo, y conformaba el conocido como el “Gran San Miguelette”, con el
-                                “Batallón Nº
-                                7” de la Parroquia San Miguel de Garicois.</p>
-                            <p align="justify"> En estos años activando normalmente y cumplimiento servicios en la
-                                Parroquia San Miguel
-                                Arcángel, recorrió en sus actividades, campamentos, caminatas y excursiones con otros
-                                Batallones
-                                Scouts, varios lugares del país, incluso en la Región Occidental.
-                            </p>
-                            <p align="justify">A mediados de la década de la década del 70, bajo incentivo de los
-                                Sacerdotes de la Obra
-                                Guaneliana, que vinieron de Chile y Argentina, se reabren nuevamente y pasa a
-                                denominarse
-                                Grupo Scout Nº 34 “Luis Guanella”, activando con una Tropa de Boys Scouts y una Manada
-                                de
-                                Lobatos, con modalidad terrestre, usaban uniforme kaki, con pañuelo verde a rayas
-                                amarillas y
-                                rosadas.</p>
+        /* Línea vertical izquierda */
+        .timeline-line {
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #9b111e 0%, #dc2626 50%, #9b111e 100%);
+            z-index: 0;
+        }
+
+        /* Contenedor de items */
+        .timeline-wrapper {
+            position: relative;
+            z-index: 1;
+            padding-left: 120px;
+        }
+
+        /* Item individual */
+        .timeline-item {
+            margin-bottom: 50px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            animation: slideInLeft 0.6s ease-out backwards;
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+        .timeline-item:nth-child(6) { animation-delay: 0.6s; }
+        .timeline-item:nth-child(7) { animation-delay: 0.7s; }
+
+        /* Punto/Círculo en la línea */
+        .timeline-dot {
+            position: absolute;
+            left: -105px;
+            top: 0;
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: 4px solid #9b111e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            color: #9b111e;
+            z-index: 2;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .timeline-item:hover .timeline-dot {
+            transform: scale(1.2);
+            background: #9b111e;
+            color: white;
+            box-shadow: 0 0 0 4px rgba(155, 17, 30, 0.2);
+        }
+
+        /* Card */
+        .timeline-card {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #9b111e;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .timeline-card:hover {
+            box-shadow: 0 8px 20px rgba(155, 17, 30, 0.15);
+            transform: translateX(8px);
+        }
+
+        /* Año */
+        .timeline-year {
+            font-size: 16px;
+            font-weight: 700;
+            color: #9b111e;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* Título */
+        .timeline-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        /* Descripción */
+        .timeline-description {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #6b7280;
+        }
+
+        /* Card especial - Hoy */
+        .timeline-card-today {
+            background: linear-gradient(135deg, #9b111e 0%, #5a0a1a 100%);
+            border-left-color: #dc2626;
+        }
+
+        .timeline-card-today .timeline-year {
+            color: #fecaca;
+        }
+
+        .timeline-card-today .timeline-title {
+            color: white;
+        }
+
+        .timeline-card-today .timeline-description {
+            color: #f3e8e8;
+        }
+
+        .timeline-card-today:hover {
+            box-shadow: 0 12px 28px rgba(155, 17, 30, 0.25);
+            transform: translateX(12px);
+        }
+
+        /* Animaciones */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive - Tablet */
+        @media (max-width: 768px) {
+            .timeline-container {
+                padding: 40px 20px;
+            }
+
+            .timeline-line {
+                left: 20px;
+            }
+
+            .timeline-wrapper {
+                padding-left: 90px;
+            }
+
+            .timeline-dot {
+                left: -80px;
+                width: 42px;
+                height: 42px;
+                font-size: 16px;
+            }
+
+            .timeline-title {
+                font-size: 18px;
+            }
+
+            .timeline-description {
+                font-size: 14px;
+            }
+
+            .timeline-item {
+                margin-bottom: 40px;
+            }
+        }
+
+        /* Responsive - Móvil */
+        @media (max-width: 480px) {
+            .timeline-container {
+                padding: 30px 0;
+            }
+
+            .timeline-line {
+                left: 12px;
+            }
+
+            .timeline-wrapper {
+                padding-left: 70px;
+            }
+
+            .timeline-dot {
+                left: -65px;
+                width: 36px;
+                height: 36px;
+                border-width: 3px;
+                font-size: 13px;
+            }
+
+            .timeline-card {
+                padding: 16px;
+                border-radius: 6px;
+            }
+
+            .timeline-year {
+                font-size: 14px;
+            }
+
+            .timeline-title {
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+
+            .timeline-description {
+                font-size: 13px;
+            }
+
+            .timeline-item {
+                margin-bottom: 30px;
+            }
+
+            .timeline-card:hover {
+                transform: translateX(6px);
+            }
+        }
+    </style>
+
+    <!-- About Section - Historical Timeline -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl font-bold text-gray-900 mb-4">Nuestra trayectoria</h2>
+                <div class="w-20 h-1 bg-red-600 mx-auto mb-6"></div>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Más de 70 años de historia, servicio y compromiso con la formación de niños, adolescentes y adultos en Paraguay</p>
+            </div>
+
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+
+                <div class="timeline-wrapper">
+                    <!-- Item 1 -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot">1</div>
+                        <div class="timeline-card">
+                            <span class="timeline-year">FINALES 1940s</span>
+                            <h3 class="timeline-title">Fundación del Grupo</h3>
+                            <p class="timeline-description">Se crea el Batallón de Boys Scouts Nº 9 'San Miguel Arcángel', uno de los primeros grupos scouts del Paraguay.</p>
                         </div>
-                        <div class="col">
-                            <p align="justify">En agosto de 1988 con presencia de las autoridades de la Asociación Scout
-                                del Paraguay, se realiza
-                                el acto oficial de Reapertura y adquiere en ese momento la Modalidad “Naval”, pasándose
-                                a
-                                denominarse Grupo de Scouts Navales Nº 34 “Beato Luis Guanella”, con uniformes azul
-                                marino
-                                y blanco, con miembro oficial de la ASP, empezando a reactivarse con una Manada
-                                “Colmillo
-                                Blanco”, una Tropa de Scouts “Capellanes del Chaco” y un Clan de Rovers “Yrendague”,
-                                pero
-                                contando solo con varones. En el año 1993, se crea en la Brigada de Pioneros “Armada
-                                Nacional”,
-                                luego pasaría a denominarse Comunidad de Caminantes.</p>
-                            <p align="justify">Durante sus casi setenta años de existencia el Grupo, su local de
-                                reuniones semanales fue siempre
-                                la Parroquia San Miguel Arcángel, <b>volviéndose una tradición de ella misma y del
-                                    Barrio Ciudad
-                                    Nueva, al ser parte permanente.</b>
-                                Se menciona que el grupo participó de las actividades de la Federación Paraguaya de
-                                Escultismo
-                                – FEPE y de la Hermandad Scout del Paraguay - HSP. </p>
-                            <p align="justify"> Se destaca que, durante toda la existencia del Grupo, varios de sus ex
-                                miembros y ex jefes ayudado
-                                en la creación de otros cinco grupos, también apoyando a otros varios grupos para
-                                expandir el
-                                Movimiento Scout en diferentes lugares del país. </p>
-                            <p align="justify"> Actualmente el Grupo Scout Nro 34 “SAN LUIS GUANELLA”, es Miembro de la
-                                Asociación
-                                Scout del Paraguay (ASP), con reconocimiento del Movimiento Scout Mundial, y posee en
-                                forma
-                                activa todas las unidades, con casi 80 miembros beneficiarios</p>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot">2</div>
+                        <div class="timeline-card">
+                            <span class="timeline-year">1959</span>
+                            <h3 class="timeline-title">Primer período de inactividad</h3>
+                            <p class="timeline-description">Por falta de dirigentes y recursos, el grupo suspende temporalmente sus actividades.</p>
                         </div>
-                    </div><!-- End of Row -->
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot">3</div>
+                        <div class="timeline-card">
+                            <span class="timeline-year">1960</span>
+                            <h3 class="timeline-title">Creación de la ASP</h3>
+                            <p class="timeline-description">Exmiembros del grupo colaboran en la creación de la Asociación de Scouts del Paraguay.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot">4</div>
+                        <div class="timeline-card">
+                            <span class="timeline-year">DÉCADA 1970</span>
+                            <h3 class="timeline-title">Reapertura del Grupo</h3>
+                            <p class="timeline-description">Con apoyo de sacerdotes y exscouts, el grupo vuelve a la actividad con nuevas reuniones y campamentos.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 5 -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot">5</div>
+                        <div class="timeline-card">
+                            <span class="timeline-year">23 NOV 1986</span>
+                            <h3 class="timeline-title">Reinicio definitivo</h3>
+                            <p class="timeline-description">Se reinician formalmente las actividades con estructura renovada y participación comunitaria.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 6 -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot">6</div>
+                        <div class="timeline-card">
+                            <span class="timeline-year">2011</span>
+                            <h3 class="timeline-title">Adopción del nombre actual</h3>
+                            <p class="timeline-description">El grupo cambia su nombre a 'Grupo Scout San Luis Guanella Nº 34' tras su canonización.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 7 - Presente -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot">✓</div>
+                        <div class="timeline-card timeline-card-today">
+                            <span class="timeline-year">HOY</span>
+                            <h3 class="timeline-title">Una tradición que continúa</h3>
+                            <p class="timeline-description">Más de 80 miembros activos en 4 unidades, formando líderes y promoviendo valores en la comunidad.</p>
+                        </div>
+                    </div>
                 </div>
-            </div><!-- End of About Wrapper -->
-        </div> <!-- End of Container-->
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-24">
+                <div class="text-center p-6 rounded-lg bg-gray-50">
+                    <div class="text-5xl font-bold text-red-600 mb-2">70+</div>
+                    <p class="text-gray-700 font-semibold">Años de Tradición</p>
+                </div>
+                <div class="text-center p-6 rounded-lg bg-gray-50">
+                    <div class="text-5xl font-bold text-red-600 mb-2">80+</div>
+                    <p class="text-gray-700 font-semibold">Miembros Activos</p>
+                </div>
+                <div class="text-center p-6 rounded-lg bg-gray-50">
+                    <div class="text-5xl font-bold text-red-600 mb-2">4</div>
+                    <p class="text-gray-700 font-semibold">Unidades Activas</p>
+                </div>
+            </div>
+        </div>
     </section>
-    <!--End of Section -->
 
-
-    <!-- section -->
-    <section id="testmonial">
-        <!-- Container -->
-        <div class="container">
-            <!-- row -->
-            <div class="row justify-content-between align-items-center">
-                <div class="col-md-6">
-                    <div class="img-wrapper">
-                        <div class="after"></div>
-                        <img src="assets/imgs/imagen.png" class="w-100" alt="About Us">
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <h6 class="title mb-3">¿Qué hacen los scouts?</h6>
-                    <p>
-                        Las actividades que se realizan son de todo tipo: juegos,
-                        campamentos, salidas al campo, excursiones, actividades con fines sociales, actividades
-                        comunitarias, contrucciones de madera, actividades orientadas a la educación para la
-                        salud, etc.</p>
-                </div>
+    <!-- Activities Section -->
+    <section id="activities" class="py-20 bg-gradient-to-b from-white to-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-gray-900 mb-4">¿Qué hacen los scouts?</h2>
+                <div class="w-20 h-1 bg-red-600 mx-auto mb-6"></div>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Nuestras actividades combinan aprendizaje, aventura y servicio, con el objetivo de desarrollar habilidades, liderazgo y valores en cada miembro.</p>
             </div>
-            <!-- End of Row -->
-        </div>
-        <!-- End of Container -->
-    </section><!-- End of Section -->
 
-    <!-- section -->
-    <section id="inscripcion">
-        <!-- Container -->
-        <div class="container">
-            <!-- Row -->
-            <div class="row justify-content-between align-items-center">
-                <div class="col-md-5">
-                    <h6 class="title mb-3">¿Cómo puedo hacer para inscribirme?</h6>
-                    <p>Acude al Grupo y preséntate con el Jefe de Grupo, quien te atenderá con mucho gusto.</p>
-                    <p>Puedes participar un par de semanas en las actividades Scouts a manera de prueba.</p>
-                    <p>Y una vez pasado ese tiempo, deberás pagar tu registro anual a la ASP; el pago es anual y se hace en el propio Grupo Scout. </p>
-                    <p>Una vez que te hayas registrado, deberás uniformarte y ahora sí; ¡bienvenido a los Scouts!</p>
-                </div>
-                <div class="col-md-6">
-                    <div class="img-wrapper">
-                        <div class="after right"></div>
-                        <img src="assets/imgs/inscripcion.jfif" class="w-100" alt="About Us">
-                    </div>
-                </div>
-            </div><!-- End of Row -->
-        </div><!-- End of Container-->
-    </section><!-- End of Section -->
-
-    <!-- Section -->
-    <section id="features">
-        <!-- Container -->
-        <div class="container">
-            <!-- Row -->
-            <h6 class="title mb-3">Unite a tu unidad scout.</h6>
-            <div class="contenedor">
-                <div class="tarjeta" onclick="abrirModal('assets/imgs/Manada de Lobos - Flyer.png')">
-                    <div class="cabecera-tarjeta">
-                        <img src="assets/imgs/Manada de Lobos - Flyer.png" alt="Manada-de-Lobos" />
-                    </div>
-                </div>
-        
-                <div class="tarjeta" onclick="abrirModal('assets/imgs/Tropa - Flyer.png')">
-                    <div class="cabecera-tarjeta">
-                        <img src="assets/imgs/Tropa - Flyer.png" alt="Tropa-Scout" />
-                    </div>
-                </div>
-        
-                <div class="tarjeta" onclick="abrirModal('assets/imgs/Caminantes - Flyer.png')">
-                    <div class="cabecera-tarjeta">
-                        <img src="assets/imgs/Caminantes - Flyer.png" alt="Comunidad-Caminantes" />
-                    </div>
-                </div>
-        
-                <div class="tarjeta" onclick="abrirModal('assets/imgs/Clan - Flyer.png')">
-                    <div class="cabecera-tarjeta">
-                        <img src="assets/imgs/Clan - Flyer.png" alt="Clan-de-Rovers" />
-                    </div>
-                </div>
-            </div>
-        </div><!-- End of Row -->
-        
-        <!-- Modal -->
-        <div id="modal" class="modal" onclick="cerrarModal()">
-            <span class="cerrar">&times;</span>
-            <img class="imagen-modal" id="imagen-modal" />
-        </div>
-        <script>
-            function abrirModal(imagenSrc) {
-    const modal = document.getElementById('modal');
-    const imagenModal = document.getElementById('imagen-modal');
-    imagenModal.src = imagenSrc;
-    modal.style.display = 'flex'; // Muestra el modal
-}
-
-function cerrarModal() {
-    const modal = document.getElementById('modal');
-    modal.style.display = 'none'; // Oculta el modal
-}
-        </script>
-    </section><!-- End of Section -->
-
-    <!-- Testmonial Section -->
-    <!-- <section class="text-center pt-5" id="testmonial">
-        <!-- Container -->
-    <!--    <div class="container">
-            <h3 class="mt-3 mb-5 pb-5">Testimonios</h3>
-            <!-- Row -->
-         <!--   <div class="row">
-                <div class="col-sm-10 col-md-4 m-auto">
-                    <div class="testmonial-wrapper">
-                        <img src="assets/imgs/avatar1.jpg" alt="Client Image">
-                        <h6 class="title mb-3">Adell Smith</h6>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium voluptates voluptatem
-                            eum nisi cumque veniam est id reprehenderit atque rerum, cum sit perspiciatis, harum
-                            cupiditate nostrum quibusdam perferendis accusamus, illo.</p>
-                    </div>
-                </div>
-         <!--       <div class="col-sm-10 col-md-4 m-auto">
-                    <div class="testmonial-wrapper">
-                        <img src="assets/imgs/avatar2.jpg" alt="Client Image">
-                        <h6 class="title mb-3">John Doe</h6>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium voluptates voluptatem
-                            eum nisi cumque veniam est id reprehenderit atque rerum, cum sit perspiciatis, harum
-                            cupiditate nostrum quibusdam perferendis accusamus, illo.</p>
-                    </div>
-                </div>
-              <!--  <div class="col-sm-10 col-md-4 m-auto">
-                    <div class="testmonial-wrapper">
-                        <img src="assets/imgs/avatar3.jpg" alt="Client Image">
-                        <h6 class="title mb-3">Kyle Butler</h6>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium voluptates voluptatem
-                            eum nisi cumque veniam est id reprehenderit atque rerum, cum sit perspiciatis, harum
-                            cupiditate nostrum quibusdam perferendis accusamus, illo.</p>
-           <!--         </div>
-                </div>
-        <!--    </div><!-- end of Row -->
-     <!--   </div><!-- End of Cotanier -->
-    <!-- </section><!-- End of Testmonial Section -->
-
-    <!-- Contact Section -->
-    <!-- Contact Section -->
-<section id="contact" class="text-center">
-    <!-- container -->
-    <div class="container">
-        <h1>Contáctanos</h1>
-        <p class="mb-5">Si tienes alguna pregunta o necesitas más información, ¡no dudes en contactarnos! Puedes encontrarnos en nuestras redes sociales, enviarnos un mensaje por WhatsApp o completar el formulario. Nos pondremos en contacto contigo a la brevedad. <br></p>
-        <p>Te invitamos a completar nuestro formulario: <a href="https://docs.google.com/forms/d/e/1FAIpQLSfBp1Afe92bX7MXaICzLd17lrgga_vWMIfmJefeA-AnaxEQ7w/viewform?usp=sf_link" target="_blank"><b>¡Haz clic aquí!</b></a></p>
-        <p>O contáctanos por WhatsApp:</p>
-        <a href="https://wa.me/595983366341?text=¡Hola!%20He%20visto%20información%20del%20grupo%20scout%20en%20la%20página%20web.%20¿Podrían%20darme%20más%20información?" target="_blank" class="whatsapp-link">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width: 24px; height: 24px;">
-             <b>Lorena Amarilla - Jefa de Grupo </b>
-        </a>
-    </div><!-- End of Container-->
-</section><!-- End of Contact Section --><!-- End of Contact Section -->
-
-    <!-- Section -->
-    <section class="pb-0">
-        <!-- Container -->
-        <div class="container">
-            <!-- Pre footer -->
-            <div class="pre-footer">
-                <ul class="list">
-                    <li class="list-head">
-                        <h6 class="font-weight-bold">Sobre nosotros</h6>
-                    </li>
-                    <li class="list-body">
-                        <p>Grupo Scout con más de 70 años de existencia del barrio Ciudad Nueva de Asunción.</p>
-                        <a href="#"><strong class="text-primary">San Luis Guanella </strong> <span class="text-dark">N°
-                                34</span></a>
-                    </li>
-                </ul>
-                <ul class="list">
-                    <li class="list-head">
-                        <h6 class="font-weight-bold">Nuestras páginas</h6>
-                    </li>
-                    <li class="list-body">
-                        <div class="row">
-                            <div class="col" style="display: flex; margin: 0 auto 20px auto;">
-                                <a href="https://www.facebook.com/scoutslg34/">
-                                    <img src="assets/imgs/facebook.png" ; style="width: 30px;" alt="">
-                                </a>
-                                <a href="#">
-
-                                </a>
-                                <a href="https://www.instagram.com/scoutslg34/?hl=es">
-                                    <img src="assets/imgs/instagram.png" ; style="width: 30px;" alt="">
-                                </a>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Carrusel -->
+                <div class="order-2 lg:order-1">
+                    <div class="carrusel-container">
+                        <div class="carrusel-wrapper">
+                            <div class="carrusel-images" id="carruselImages">
+                                <div class="carrusel-image active">
+                                    <img src="assets/imgs/actividad 2.jpg" alt="Construcciones">
+                                </div>
+                                <div class="carrusel-image">
+                                    <img src="assets/imgs/foto-aire-libre.jpg" alt="Actividades al aire libre">
+                                </div>
+                                <div class="carrusel-image">
+                                    <img src="assets/imgs/caminata.jpeg" alt="Senderismo y excursiones">
+                                </div>
+                                <div class="carrusel-image">
+                                    <img src="assets/imgs/educacion-salud.jpeg" alt="Enseñanza de Primeros Auxilios">
+                                </div>
+                                <div class="carrusel-image">
+                                    <img src="assets/imgs/excursion.jpeg" alt="Senderismo y excursiones">
+                                </div>
+                                <div class="carrusel-image">
+                                    <img src="assets/imgs/grupo.jpg" alt="Actividades al aire libre">
+                                </div>
+                                   <div class="carrusel-image">
+                                    <img src="assets/imgs/servicio.jpeg" alt="Servicio social">
+                                </div>
+                                <div class="carrusel-image">
+                                    <img src="assets/imgs/campamento-verano.jpeg" alt="Actividades al aire libre">
+                                </div>
+                                 <div class="carrusel-image">
+                                    <img src="assets/imgs/salida.jpeg" alt="Actividades al aire libre">
+                                </div>
                             </div>
-                            <div class="col">
-                                <a href="#"></a>
-                                <a href="#"></a>
-                                <a href="#"></a>
-                                <a href="#"></a>
+
+                            <button class="carrusel-btn carrusel-btn-prev" onclick="cambiarCarrusel(-1)">‹</button>
+                            <button class="carrusel-btn carrusel-btn-next" onclick="cambiarCarrusel(1)">›</button>
+
+                            <div class="carrusel-indicators">
+                                <span class="carrusel-dot active" onclick="irCarrusel(0)"></span>
+                                <span class="carrusel-dot" onclick="irCarrusel(1)"></span>
+                                <span class="carrusel-dot" onclick="irCarrusel(2)"></span>
+                                <span class="carrusel-dot" onclick="irCarrusel(3)"></span>
+                                <span class="carrusel-dot" onclick="irCarrusel(4)"></span>
+                                <span class="carrusel-dot" onclick="irCarrusel(5)"></span>
+                                <span class="carrusel-dot" onclick="irCarrusel(6)"></span>
+                                <span class="carrusel-dot" onclick="irCarrusel(7)"></span>
+                                <span class="carrusel-dot" onclick="irCarrusel(8)"></span>
+                                <span class="carrusel-dot" onclick="irCarrusel(9)"></span>
                             </div>
                         </div>
-                    </li>
-                </ul>
-                <ul class="list">
-                    <li class="list-head">
-                        <h6 class="font-weight-bold">Información de contacto</h6>
-                    </li>
-                    <li class="list-body">
-                        <p>Realizamos nuestras actividades todos los sábados de 14.30 a 17.30 hrs</p>
-                        <p>Parroquia San Miguel Arcángel, Barrio Ciudad Nueva - Asunción.</p>
-                    </li>
-                </ul>
-            </div><!-- End of Pre footer -->
+                    </div>
+                </div>
 
-            <!-- foooter -->
-            <footer class="footer">
-                <p>Copyright
-                    <script>document.write(new Date().getFullYear())</script> &copy;  Rover Milagro Martino</a>
-                </p>
-            </footer><!-- End of Footer-->
-
+                <!-- Texto -->
+                <div class="order-1 lg:order-2">
+                    <h3 class="text-3xl font-bold text-red-600 mb-6">Experiencias que transforman</h3>
+                    <div class="space-y-4 text-gray-700">
+                        <p class="text-lg leading-relaxed">
+A través de distintas experiencias educativas y recreativas, promovemos el crecimiento personal, el trabajo en equipo y el compromiso con la comunidad.                        <ul class="space-y-3">
+                            <li class="flex gap-3">
+                                <span class="text-red-600 font-bold text-xl">▸</span>
+                                <span><strong>Campamentos y Excursiones</strong> - Contacto con la naturaleza y trabajo en equipo</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-red-600 font-bold text-xl">▸</span>
+                                <span><strong>Juegos y Dinámicas</strong> - Desarrollo de habilidades sociales y diversión</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-red-600 font-bold text-xl">▸</span>
+                                <span><strong>Proyectos Comunitarios</strong> - Responsabilidad social y servicio</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-red-600 font-bold text-xl">▸</span>
+                                <span><strong>Construcciones y Manualidades</strong> - Creatividad y trabajo práctico</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-red-600 font-bold text-xl">▸</span>
+                                <span><strong>Educación para la Salud</strong> - Bienestar integral</span>
+                            </li>
+                        </ul>
+                        <p class="text-gray-600 mt-6 italic">
+                            A través de estas experiencias, nuestros scouts desarrollan liderazgo, responsabilidad, creatividad y valores que los acompañarán durante toda su vida.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!--End of Container -->
-    </section><!-- End of Section -->
+    </section>
 
-    <!-- core  -->
-    <script src="assets/vendors/jquery/jquery-3.4.1.js"></script>
-    <script src="assets/vendors/bootstrap/bootstrap.bundle.js"></script>
+    <!-- Inscription Section -->
+    <section id="inscription" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">¿Cómo puedo inscribirme?</h2>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-2xl font-bold text-red-600 mb-6">Pasos para unirte</h3>
+                    <div class="space-y-4">
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
+                            <div>
+                                <p class="text-gray-700"><strong>Anda al Grupo Scout</strong> y preséntate con el Jefe de Grupo, quien te atenderá con mucho gusto.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
+                            <div>
+                                <p class="text-gray-700"><strong>Participa a modo de prueba</strong> un par de sábados en las actividades Scouts.</p>
+                            </div>
+                        </div>
 
-    <!-- bootstrap affix -->
-    <script src="assets/vendors/bootstrap/bootstrap.affix.js"></script>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
+                            <div>
+                                <p class="text-gray-700"><strong>Una vez pasado ese tiempo, deberás realizar tu registro anual</strong> en la ASP (el pago es anual y se hace en el propio Grupo Scout).</p>
+                            </div>
+                        </div>
 
-    <!-- Creative Design js -->
-    <script src="assets/js/creative-design.js"></script>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center font-bold text-lg">4</div>
+                            <div>
+                                <p class="text-gray-700"><strong>Una vez registrado,</strong> deberás uniformarte y ahora sí: ¡bienvenido a los Scouts!.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <img src="assets/imgs/unirse.jpeg" alt="Inscripción" class="max-w-sm w-full rounded-xl shadow-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Units Section -->
+    <section id="units" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900">Encontrá tu unidad Scout</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Tenemos unidades para todas las edades. Cada unidad ofrece experiencias adaptadas a tu edad.</p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Manada -->
+                <div class="card-hover bg-white rounded-xl overflow-hidden shadow-lg cursor-pointer" onclick="abrirModal('assets/imgs/Manada 2026.png')">
+                    <img src="assets/imgs/Manada 2026.png" alt="Manada de Lobos" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg text-gray-900">Manada de Lobos</h3>
+                        <p class="text-gray-600 text-sm">Haz clic para más información</p>
+                    </div>
+                </div>
+
+                <!-- Tropa -->
+                <div class="card-hover bg-white rounded-xl overflow-hidden shadow-lg cursor-pointer" onclick="abrirModal('assets/imgs/Tropa 2026.png')">
+                    <img src="assets/imgs/Tropa 2026.png" alt="Tropa Scout" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg text-gray-900">Tropa Scout</h3>
+                        <p class="text-gray-600 text-sm">Haz clic para más información</p>
+                    </div>
+                </div>
+
+                <!-- Caminantes -->
+                <div class="card-hover bg-white rounded-xl overflow-hidden shadow-lg cursor-pointer" onclick="abrirModal('assets/imgs/Caminantes 2026.png')">
+                    <img src="assets/imgs/Caminantes 2026.png" alt="Comunidad Caminantes" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg text-gray-900">Caminantes</h3>
+                        <p class="text-gray-600 text-sm">Haz clic para más información</p>
+                    </div>
+                </div>
+
+                <!-- Clan -->
+                <div class="card-hover bg-white rounded-xl overflow-hidden shadow-lg cursor-pointer" onclick="abrirModal('assets/imgs/Clan 2026.png')">
+                    <img src="assets/imgs/Clan 2026.png" alt="Clan de Rovers" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg text-gray-900">Clan de Rovers</h3>
+                        <p class="text-gray-600 text-sm">Haz clic para más información</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para imágenes -->
+        <div id="modal" class="modal" onclick="cerrarModal(event)">
+            <span class="cerrar" onclick="cerrarModal(event)">&times;</span>
+            <img class="imagen-modal" id="imagen-modal" alt="Unidad Scout">
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-red-600 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-12">Contáctanos</h2>
+            
+            <div class="max-w-2xl mx-auto text-center">
+                <p class="text-xl mb-8 text-blue-100">Si tienes alguna pregunta o necesitas más información, ¡no dudes en contactarnos! Nos pondremos en contacto contigo a la brevedad.</p>
+                
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <!-- Formulario -->
+                    <div class="bg-white bg-opacity-10 rounded-xl p-8 backdrop-blur">
+                        <h3 class="text-xl font-bold mb-4">Formulario de Contacto</h3>
+                        <p class="text-blue-100 mb-6">Completa nuestro formulario y nos ponemos en contacto contigo:</p>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfBp1Afe92bX7MXaICzLd17lrgga_vWMIfmJefeA-AnaxEQ7w/viewform?usp=sf_link" target="_blank" class="inline-block bg-white text-red-600 px-8 py-3 rounded-lg font-bold hover:bg-red-100 transition">
+                            Abrir formulario
+                        </a>
+                    </div>
+
+                    <!-- WhatsApp -->
+                    <div class="bg-white bg-opacity-10 rounded-xl p-8 backdrop-blur">
+                        <h3 class="text-xl font-bold mb-4">Contacto por WhatsApp</h3>
+                        <p class="text-blue-100 mb-6">O contáctanos directamente a través de WhatsApp:</p>
+                        <a href="https://wa.me/595983366341?text=¡Hola!%20He%20visto%20información%20del%20grupo%20scout%20en%20la%20página%20web.%20¿Podrían%20darme%20más%20información?" target="_blank" class="inline-flex items-center gap-2 bg-white text-red-600 px-8 py-3 rounded-lg font-bold hover:bg-red-100 transition">
+                            <img src="assets/imgs/whatsapp.png" alt="WhatsApp" class="w-6 h-6 object-contain">
+                            Lorena Amarilla - Jefa de Grupo
+                        </a>
+                    </div>
+                </div>
+
+                <p class="text-blue-100 text-sm">Realizamos nuestras actividades todos los sábados de 15:00 - 18:00 hrs en la Parroquia San Miguel Arcángel, Barrio Ciudad Nueva - Asunción.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <!-- About -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Sobre Nosotros</h3>
+                    <p class="text-gray-400">Grupo Scout con más de 70 años de existencia del barrio Ciudad Nueva de Asunción.</p>
+                    <p class="text-red-400 mt-2"><strong>San Luis Guanella N° 34</strong></p>
+                </div>
+
+                <!-- Social Media -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Síguenos</h3>
+                    <div class="flex items-center gap-4">
+                        <a href="https://www.facebook.com/scoutslg34/" target="_blank"
+                           class="inline-block hover:scale-110 transition-transform">
+                            <img src="assets/imgs/facebookk.png" class="w-6 h-6 object-contain" alt="Facebook">
+                        </a>
+                        <a href="https://www.instagram.com/scoutslg34/?hl=es" target="_blank"
+                           class="inline-block hover:scale-110 transition-transform">
+                            <img src="assets/imgs/instaa.png" class="w-6 h-6 object-contain" alt="Instagram">
+                        </a>
+                        <a href="https://www.tiktok.com/@scoutslg34?_r=1&_t=ZS-94YqOpnR3Xk" target="_blank"
+                           class="inline-block hover:scale-110 transition-transform">
+                            <img src="assets/imgs/tiktok.png" class="w-6 h-6 object-contain" alt="TikTok">
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Información</h3>
+                    <p class="text-gray-400"><strong>Horario:</strong><br>Sábados 15:00 - 18:00hrs</p>
+                    <p class="text-gray-400 mt-2">
+                        <strong>Ubicación:</strong><br>
+                        <a href="https://maps.app.goo.gl/Uksy7aSkKZLuh8TT7" target="_blank" class="text-red-400 hover:text-red-300 underline underline-offset-2">
+                            Parroquia San Miguel Arcángel<br>
+                            Barrio Ciudad Nueva - Asunción
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <hr class="border-gray-700 mb-8">
+
+            <div class="text-center text-gray-400">
+                <p>&copy; <span id="year"></span> Grupo Scout San Luis Guanella N° 34. Hecho con ❤️ por Milagro Martino</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ========== CARRUSEL FUNCIONES ==========
+        let indexCarrusel = 0;
+
+        function cambiarCarrusel(n) {
+            irCarrusel(indexCarrusel += n);
+        }
+
+        function irCarrusel(n) {
+            const images = document.querySelectorAll('.carrusel-image');
+            const dots = document.querySelectorAll('.carrusel-dot');
+            
+            if (n >= images.length) {
+                indexCarrusel = 0;
+            } else if (n < 0) {
+                indexCarrusel = images.length - 1;
+            } else {
+                indexCarrusel = n;
+            }
+
+            images.forEach(img => img.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            images[indexCarrusel].classList.add('active');
+            dots[indexCarrusel].classList.add('active');
+        }
+
+        // Auto-advance carousel every 6 seconds
+        setInterval(() => {
+            cambiarCarrusel(1);
+        }, 6000);
+
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close menu on link click
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+
+        // Modal functionality
+        function abrirModal(imagenSrc) {
+            const modal = document.getElementById('modal');
+            const imagenModal = document.getElementById('imagen-modal');
+            imagenModal.src = imagenSrc;
+            modal.classList.add('show');
+        }
+
+        function cerrarModal(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal || event.target.classList.contains('cerrar')) {
+                modal.classList.remove('show');
+            }
+        }
+
+        // Close modal when pressing Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('modal');
+                modal.classList.remove('show');
+            }
+        });
+    </script>
 
 </body>
 
